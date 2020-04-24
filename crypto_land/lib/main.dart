@@ -246,28 +246,39 @@ class Chapter2 extends StatefulWidget {
 class _Chapter2State extends State<Chapter2> {
   @override
   Widget build(BuildContext context) {
+
     var max_height = MediaQuery.of(context).size.height;
     var max_width = MediaQuery.of(context).size.width;
+
+    var prisoner = Image.asset(
+      "images/prisoner.png",
+      height: max_height / 2.5,
+      width: max_width,
+      alignment: Alignment.centerLeft,
+    );
+    var car = Image.asset("images/car1.png",
+        height: max_height / 1.2, width: max_width / 1.5,
+        alignment: Alignment.bottomRight);
+
+    var bubble1 = Bubble(
+      alignment: Alignment.topCenter,
+      nipWidth: 30,
+      nipHeight: 10,
+      radius: Radius.circular(20.0),
+      nip: BubbleNip.leftBottom,
+      color: bubble_color,
+      child: Text(
+        chatControl.chatList(chatNum).item2,
+        style: GoogleFonts.sofadiOne(),
+      ),
+    );
+
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: SafeArea(
             child: GestureDetector(
               onTap: () {
-//            if (correctAnswer == true) {
-//              setState(() {
-//                bg_image_id++;
-//                visible_3 = 0.0;
-//                character1_visibility = 0.0;
-//                character2_visibility = 0.0;
-//                problem_opacity = 0.0;
-//                correctAnswer = false;
-//                visible_1 = 0.0;
-//                visible_2 = 0.0;
-//                prison_opacity = 0.0;
-//              });
-//            } else {
-//              bg_image_id++;
-//            }
+
               },
               child: Stack(
                 children: <Widget>[
@@ -276,6 +287,35 @@ class _Chapter2State extends State<Chapter2> {
                     height: max_height,
                     width: max_width,
                     fit: BoxFit.fill,
+                  ),
+                  Container(
+                    alignment: Alignment.bottomLeft,
+                    child: AnimatedOpacity(
+                      child: prisoner,
+                      opacity: 1.00,
+                      duration: Duration(milliseconds: 500),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 50,
+                      ),
+                      AnimatedOpacity(
+                        child: bubble1,
+                        opacity: 1.00,
+                        duration: Duration(milliseconds: 0),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomRight,
+                        child: AnimatedOpacity(
+                          child: car,
+                          opacity: 1.00,
+                          duration: Duration(milliseconds: 500),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

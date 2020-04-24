@@ -24,7 +24,7 @@ class ChatControl{
       Tuple2(0.0,"What is this code trying to say....."),
       Tuple2(999.0,"Try and crack the code"),
       Tuple2(998.0,"Cipher text"),
-      Tuple2(-1,"Cipher text"),
+      Tuple2(-1,"to be continued"),
     ];
     return chats[index];
   }
