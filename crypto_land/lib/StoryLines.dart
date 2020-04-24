@@ -24,6 +24,19 @@ class ChatControl{
       Tuple2(0.0,"What is this code trying to say....."),
       Tuple2(999.0,"Try and crack the code"),
       Tuple2(998.0,"Cipher text"),
+      Tuple2(-1,"Cipher text"),
+    ];
+    return chats[index];
+  }
+  Tuple2 chatList2(index){
+    List<Tuple2<double,String>> chats = [
+      Tuple2(1.0,"Prisoner : HeHe...time to go!"),
+      Tuple2(999.0,"He rushes through the allyway and finds a car at the extraction point."),
+      Tuple2(1.0,"Prisoner : Hmm.maybe this is the right car."),
+      Tuple2(997.0,"He tries to unlock the car, but finds that he needs a code to do so. His eyes are attracted by the envelope sticking under the wiper of the car.!"),
+      Tuple2(1.0,"Prisoner : What another code, what a joke..!"),
+      Tuple2(999.0,"It's a 5 digit code"),
+      Tuple2(998.0,"Cipher text"),
     ];
     return chats[index];
   }

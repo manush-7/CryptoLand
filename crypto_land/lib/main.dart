@@ -3,7 +3,26 @@ import 'package:bubble/bubble.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'StoryLines.dart';
 import 'CryptoProblems.dart';
-var bg_image_id=0;
+import 'package:animated_text_kit/animated_text_kit.dart';
+
+var bg_image_id = 0;
+var flag = false;
+var p_id = 0;
+var bubble_color = Color.fromRGBO(255, 255, 255, 75);
+var visible_1 = 0.0, visible_2 = 1.0, visible_3 = 0.0;
+var character1_visibility = 1.0,
+    character2_visibility = 1.0,
+    problem_opacity = 0.0,
+    prison_opacity = 1.0;
+int chatNum = 0;
+var chatControl = new ChatControl();
+final myController = TextEditingController();
+var bgImages = [
+  'images/prisonbg.jfif',
+  "images/prisonBreak.png",
+  "images/allyway.png"
+];
+
 void main() => runApp(CryptoLand());
 
 class CryptoLand extends StatelessWidget {
@@ -22,18 +41,10 @@ class CryptoHome extends StatefulWidget {
 }
 
 class _CryptoHomeState extends State<CryptoHome> {
-  var p_id=0;
-  var visible_1 = 0.0, visible_2 = 1.0,visible_3=0.0;
-  var character1_visibility=1.0, character2_visibility=1.0,problem_opacity=0.0,prison_opacity=1.0;
-  int chatNum=0;
-  var chatControl = new ChatControl();
-  final myController = TextEditingController();
-  var bgImages=['images/prisonbg.jfif',"images/prisonBreak.png"];
-
   @override
   Widget build(BuildContext context) {
-    var bubble_color = Color.fromRGBO(255, 255, 255, 75);
-
+    var max_height = MediaQuery.of(context).size.height;
+    var max_width = MediaQuery.of(context).size.width;
     var bubble1 = Bubble(
       alignment: Alignment.topCenter,
       nipWidth: 30,
@@ -69,8 +80,6 @@ class _CryptoHomeState extends State<CryptoHome> {
       ),
     );
 
-    var max_height = MediaQuery.of(context).size.height;
-    var max_width = MediaQuery.of(context).size.width;
     var prisoner = Image.asset(
       "images/prisoner.png",
       height: max_height / 1.3,
@@ -85,45 +94,70 @@ class _CryptoHomeState extends State<CryptoHome> {
         body: SafeArea(
             child: GestureDetector(
                 onTap: () {
-                  if(correctAnswer==true){
+                  if (correctAnswer == true) {
                     setState(() {
+                      flag = true;
                       bg_image_id++;
-                      visible_3=0.0;
-                      character1_visibility=0.0;
-                      character2_visibility=0.0;
-                      problem_opacity=0.0;
-                      visible_1=0.0;
-                      visible_2=0.0;
-                      prison_opacity=0.0;
-                      correctAnswer=false;
+                      visible_3 = 0.0;
+                      character1_visibility = 0.0;
+                      character2_visibility = 0.0;
+                      problem_opacity = 0.0;
+                      correctAnswer = false;
+                      visible_1 = 0.0;
+                      visible_2 = 0.0;
+                      prison_opacity = 0.0;
                     });
-                  }
-                  else{
+                  } else {
                     setState(() {
                       chatNum++;
-                      visible_2 = (chatControl.chatList(chatNum).item1);
-                      visible_1 = (visible_2==1.0 ? 0.0 : 1.0);
-                      if(visible_2==999.0){
-                        visible_3=1.0;
-                        visible_1=0.0;
-                        visible_2=0.0;
-                        character1_visibility=0.0;
-                        character2_visibility=0.0;
-                      }
-                      else if(visible_2==998.0){
-                        p_id++;
-                        visible_3=0.0;
-                        character1_visibility=0.0;
-                        character2_visibility=0.0;
-                        problem_opacity=1.0;
-                        visible_1=0.0;
-                        visible_2=0.0;
-                        prison_opacity=0.0;
-                      }
-                      else{
-                        visible_3=0.0;
-                        character1_visibility=1.0;
-                        character2_visibility=1.0;
+                      if (chatNum != 23) {
+                        visible_2 = (chatControl.chatList(chatNum).item1);
+                        visible_1 = (visible_2 == 1.0 ? 0.0 : 1.0);
+                        if (visible_2 == -1) {
+                          if (!flag) {
+                            setState(() {
+                              chatNum--;
+                              visible_3 = 0.0;
+                              character1_visibility = 0.0;
+                              character2_visibility = 0.0;
+                              problem_opacity = 1.0;
+                              visible_1 = 0.0;
+                              visible_2 = 0.0;
+                              prison_opacity = 0.0;
+                            });
+                          } else {
+                            visible_3 = 0.0;
+                            character1_visibility = 0.0;
+                            character2_visibility = 0.0;
+                            problem_opacity = 0.0;
+                            visible_1 = 0.0;
+                            visible_2 = 0.0;
+                            prison_opacity = 0.0;
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => Chapter2()));
+                          }
+                        } else if (visible_2 == 999.0) {
+                          visible_3 = 1.0;
+                          visible_1 = 0.0;
+                          visible_2 = 0.0;
+                          character1_visibility = 0.0;
+                          character2_visibility = 0.0;
+                        } else if (visible_2 == 998.0) {
+                          p_id++;
+                          visible_3 = 0.0;
+                          character1_visibility = 0.0;
+                          character2_visibility = 0.0;
+                          problem_opacity = 1.0;
+                          visible_1 = 0.0;
+                          visible_2 = 0.0;
+                          prison_opacity = 0.0;
+                        } else {
+                          visible_3 = 0.0;
+                          character1_visibility = 1.0;
+                          character2_visibility = 1.0;
+                        }
                       }
                     });
                   }
@@ -146,7 +180,9 @@ class _CryptoHomeState extends State<CryptoHome> {
                     ),
                     AnimatedOpacity(
                       child: Image.asset("images/prison.png",
-                          height: max_height, width: max_width, fit: BoxFit.fill),
+                          height: max_height,
+                          width: max_width,
+                          fit: BoxFit.fill),
                       opacity: prison_opacity,
                       duration: Duration(milliseconds: 0),
                     ),
@@ -191,14 +227,59 @@ class _CryptoHomeState extends State<CryptoHome> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Center(
-                          child: problem_opacity==1.0 ? BuildCryptoProblems(currProblem: p_id):Container(),
+                          child: problem_opacity == 1.0
+                              ? BuildCryptoProblems(currProblem: p_id)
+                              : Container(),
                         ),
                       ],
-                    )
+                    ),
                   ],
-                )
-            )
-        )
-    );
+                ))));
+  }
+}
+
+class Chapter2 extends StatefulWidget {
+  @override
+  _Chapter2State createState() => _Chapter2State();
+}
+
+class _Chapter2State extends State<Chapter2> {
+  @override
+  Widget build(BuildContext context) {
+    var max_height = MediaQuery.of(context).size.height;
+    var max_width = MediaQuery.of(context).size.width;
+    return Scaffold(
+        resizeToAvoidBottomPadding: false,
+        body: SafeArea(
+            child: GestureDetector(
+              onTap: () {
+//            if (correctAnswer == true) {
+//              setState(() {
+//                bg_image_id++;
+//                visible_3 = 0.0;
+//                character1_visibility = 0.0;
+//                character2_visibility = 0.0;
+//                problem_opacity = 0.0;
+//                correctAnswer = false;
+//                visible_1 = 0.0;
+//                visible_2 = 0.0;
+//                prison_opacity = 0.0;
+//              });
+//            } else {
+//              bg_image_id++;
+//            }
+              },
+              child: Stack(
+                children: <Widget>[
+                  Image.asset(
+                    bgImages[bg_image_id==2?bg_image_id:++bg_image_id],
+                    height: max_height,
+                    width: max_width,
+                    fit: BoxFit.fill,
+                  ),
+                ],
+              ),
+            )));
+    return Container();
   }
 }

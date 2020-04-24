@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'main.dart';
 
-bool correctAnswer=false;
+bool correctAnswer = false;
+
+Widget createTap() {
+  return Container(
+    child: SizedBox(
+      width: 250.0,
+      child: FadeAnimatedTextKit(
+          totalRepeatCount: 1000,
+          onTap: () {
+            print("Tap Event");
+          },
+          text: ["tap anywhere to continue"],
+          textStyle: GoogleFonts.sofadiOne(fontSize: 30),
+          textAlign: TextAlign.center,
+          alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+      ),
+    ),
+  );
+}
 
 class BuildCryptoProblems extends StatefulWidget {
   var currProblem;
@@ -14,6 +34,7 @@ class BuildCryptoProblems extends StatefulWidget {
 
 class _BuildCryptoProblemsState extends State<BuildCryptoProblems> {
   TextEditingController deciphered;
+
   //bool correctAnswer=false;
 
   @override
@@ -25,7 +46,7 @@ class _BuildCryptoProblemsState extends State<BuildCryptoProblems> {
 
   @override
   Widget build(BuildContext context) {
-    var max_height=MediaQuery.of(context).size.height;
+    var max_height = MediaQuery.of(context).size.height;
     switch (widget.currProblem) {
       case 1:
         print("HOOOO");
@@ -56,13 +77,14 @@ class _BuildCryptoProblemsState extends State<BuildCryptoProblems> {
                               colors: [Colors.red, Colors.orange])),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                            "llwatchawthclockgirnisksundialcirbetimersool",
+                        child: Text("llwatchawthclockgirnisksundialcirbetimersool",
                             textAlign: TextAlign.center,
-                            style:GoogleFonts.sofadiOne(fontSize: 30, color: Color.fromRGBO(0, 0, 0, 15))
-                        ),
+                            style: GoogleFonts.sofadiOne(
+                                fontSize: 30, color: Color.fromRGBO(0, 0, 0, 15))),
                       )),
-                  SizedBox(height: max_height/10,),
+                  SizedBox(
+                    height: max_height / 10,
+                  ),
                   TextField(
                     minLines: 1,
                     maxLines: 1,
@@ -82,13 +104,20 @@ class _BuildCryptoProblemsState extends State<BuildCryptoProblems> {
                       ),
                     ),
                   ),
-                  SizedBox(height: max_height/15,),
+                  SizedBox(
+                    height: max_height / 15,
+                  ),
                   GestureDetector(
-                    onTap: ((){
+                    onTap: (() {
                       print("Tapped!!");
                       print(deciphered.text);
-                      if(deciphered.text=='loose bricks on the right wall')
-                        correctAnswer=true;
+                      print(deciphered.text == 'loose bricks on the right wall');
+                      if (deciphered.text == 'loose bricks on the right wall') {
+                        setState(() {
+                          correctAnswer=true;
+                        });
+
+                      }
                     }),
                     child: Container(
                         decoration: BoxDecoration(
@@ -105,6 +134,13 @@ class _BuildCryptoProblemsState extends State<BuildCryptoProblems> {
                                 color: Colors.white, fontSize: 30),
                           ),
                         )),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+
+                    children: <Widget>[
+                      SizedBox(width:200),
+                      correctAnswer ? createTap() : Container()],
                   )
                 ])));
         break;
